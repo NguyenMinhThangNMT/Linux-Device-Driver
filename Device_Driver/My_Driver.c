@@ -28,6 +28,9 @@ static ssize_t driver_read(struct file *File, char *user_buffer, size_t count, l
 	/* So luong du lieu sao chep */
 	to_copy = min(count, buffer_pointer);
 
+	/*Copy data den user*/
+	not_copied = copy_to_user(user_buffer, buffer, to_copy);
+
 	/* Copy data tu bufferlieu */
 	delta = to_copy - not_copied;
 
@@ -73,7 +76,6 @@ static struct file_operations fops = {
 
 
 static int __init ModuleInit(void) {
-	int retval;
 	printk("Hello, Kernel!\n");
 
 	/*Xin cap phat so hieu cho cdev */
